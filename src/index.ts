@@ -55,7 +55,7 @@ app.get("*", function (req, res) {
   res.status(404).render("error");
 });
 
-const port = 4000;
+const port = process.env.PORT || 4000;
 app.listen(port, () => {
   console.log(`Sunucu port ${port} da başlatıldı.`);
 });
