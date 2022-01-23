@@ -1,0 +1,44 @@
+<%- include('partials/_header') -%>
+<body class="login-body">
+    <form method="POST" action="/register" class="form">
+        <div class="title">Kayıt Ol</div>
+        <div class="input-container ic1">
+          <input name="firstName" class="input" type="text" placeholder=" " required/>
+          <div class="cut"></div>
+          <label for="firstName" class="placeholder">Ad</label>
+          <div class="name-error"></div>
+        </div>
+        <div class="input-container ic2">
+          <input name="lastName" class="input" type="text" placeholder=" " required/>
+          <div class="cut"></div>
+          <label for="lastName" class="placeholder">Soyad</label>
+          <div class="surname-error"></div>
+        </div>
+        <div class="input-container ic2">
+          <input name="userName" class="input" type="text" placeholder=" " required/>
+          <div class="cut "></div>
+          <label for="userName" class="placeholder">Kullanıcı Adı</label>
+          <div class="username-error"></div>
+        </div>
+        <div class="input-container ic2">
+            <input name="password" class="input" type="password" placeholder=" " required/>
+            <div class="cut "></div>
+            <label for="password" class="placeholder">Şifre</label>
+            <div class="password-error"></div>
+        </div>
+        <% if(locals.error) { %>
+          <div class="error-message">
+                 <%= error %>
+          </div>
+          <% } %>
+        <button type="submit" class="submit">Kayıt Ol</button>
+        <div class="toLogin">
+          <p>Zaten bir hesabım var. <a href="/login" class="to">Giriş Yap</a></p>
+        </div>
+      </form>
+
+    
+
+  </body>
+</html>
+
