@@ -2,6 +2,18 @@ import { Entity, PrimaryGeneratedColumn, Column, getRepository } from "typeorm";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
+function formatDate() {
+  var d = new Date(),
+    day = "" + d.getDate(),
+    month = "" + (d.getMonth() + 1),
+    year = d.getFullYear();
+
+  if (month.length < 2) month = "0" + month;
+  if (day.length < 2) day = "0" + day;
+
+  return [day, month, year].join("/");
+}
+
 @Entity({ name: "users" })
 export class User {
   @PrimaryGeneratedColumn("uuid")
@@ -22,8 +34,8 @@ export class User {
   @Column({ default: true })
   isAdmin: boolean;
 
-  @Column({ default: null })
-  token: string;
+  @Column({ default: formatDate() })
+  createdAt: string;
 
   //Password hashing function it calls when user signing up.
   async hashPassword() {
@@ -60,11 +72,14 @@ export class User {
 
   //Create JWT function .
   async generateAuthToken(userAgent: string) {
+    //Token expire date
+    const maxAge = 3 * 24 * 60 * 60;
     const user: User = this;
     const token: string = jwt.sign(
       { id: user.id, userAgent },
-      process.env.JWT_SECRET_KEY as string
-    ); //username eklemenin yolunu bul.
+      process.env.JWT_SECRET_KEY as string,
+      { expiresIn: maxAge }
+    );
 
     if (!token) {
       throw new Error("Token can not created");

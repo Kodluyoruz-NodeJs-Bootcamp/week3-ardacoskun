@@ -18,6 +18,7 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
   try {
     //Decoding JWT
     const token: string = await req.cookies.jwt;
+
     let decoded = jwt.verify(
       token,
       process.env.JWT_SECRET_KEY as string
