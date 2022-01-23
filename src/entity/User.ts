@@ -55,18 +55,18 @@ export class User {
       const user = await getRepository(User).findOne({ userName });
 
       if (!user) {
-        throw new Error("User is not found");
+        throw "User is not found";
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
-        throw new Error("Please check your username or password");
+        throw "Please check your username or password";
       }
 
       return user;
     } catch (error) {
-      throw new Error("Credentials Error");
+      throw "Credentials Error";
     }
   }
 
@@ -75,11 +75,9 @@ export class User {
     //Token expire date
     const maxAge = 3 * 24 * 60 * 60;
     const user: User = this;
-    const token: string = jwt.sign(
-      { id: user.id, userAgent },
-      process.env.JWT_SECRET_KEY as string,
-      { expiresIn: maxAge }
-    );
+    const token: string = jwt.sign({ id: user.id, userAgent }, "secretkey", {
+      expiresIn: maxAge,
+    });
 
     if (!token) {
       throw new Error("Token can not created");
